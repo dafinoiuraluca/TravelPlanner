@@ -44,7 +44,7 @@ namespace TravelPlanner.Controllers
                 {
                     command.Parameters.AddWithValue("@AccommodationName", accommodations.AccomodationName);
                     command.Parameters.AddWithValue("@AccommodationType", accommodations.AccommodationType);
-                    command.Parameters.AddWithValue("@AccommodationLocation", accommodations.AccomodationLocation);
+                    command.Parameters.AddWithValue("@AccommodationLocation", accommodations.AccommodationLocation);
                     command.Parameters.AddWithValue("@AccommodationDescription", accommodations.AccomodationDescription);
                     command.Parameters.AddWithValue("@Price", accommodations.Price);
                     command.Parameters.AddWithValue("@CreatedAt", accommodations.CreatedAt);
@@ -75,7 +75,7 @@ namespace TravelPlanner.Controllers
                             AccommodationId = (int)reader["AccommodationId"],
                             AccomodationName = reader["AccommodationName"].ToString(),
                             AccommodationType = reader["AccommodationType"].ToString(),
-                            AccomodationLocation = reader["AccommodationLocation"].ToString(),
+                            AccommodationLocation = reader["AccommodationLocation"].ToString(),
                             Price = (decimal)reader["Price"],
                             AccomodationDescription = reader["AccommodationDescription"].ToString(),
                             CreatedAt = (DateTime)reader["CreatedAt"],

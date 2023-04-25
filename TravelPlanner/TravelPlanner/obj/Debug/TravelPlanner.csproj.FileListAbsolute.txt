@@ -156,3 +156,11 @@ D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Newtonsoft.Json.x
 D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Antlr3.Runtime.pdb
 D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\obj\Debug\TravelPlanner.csproj.CopyComplete
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\EntityFramework.dll
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\EntityFramework.SqlServer.dll
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\EntityFramework.xml
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\EntityFramework.SqlServer.xml
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Facultate\TravelPlannerV3.1\TravelPlanner\TravelPlanner\bin\Microsoft.AspNet.Identity.EntityFramework.xml
