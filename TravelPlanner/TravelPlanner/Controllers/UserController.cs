@@ -64,7 +64,6 @@ namespace TravelPlanner.Controllers
         }
 
 
-
         [HttpPost]
         public ActionResult CheckCredentials(string email, string password)
         {

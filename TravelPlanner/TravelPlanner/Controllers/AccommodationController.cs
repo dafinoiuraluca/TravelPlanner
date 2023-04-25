@@ -56,7 +56,7 @@ namespace TravelPlanner.Controllers
         }
 
         // GET: Accommodation
-        public ActionResult Search(string searchAccommodation)
+        public ActionResult SearchAccommodation(string searchAccommodation)
         {
             List<Accommodation> accommodations = new List<Accommodation>();
             using (SqlConnection conn = new SqlConnection(connectionString))
