@@ -34,7 +34,6 @@ namespace TravelPlanner.Controllers
                     command.Parameters.AddWithValue("@ActivityDescription", activity.ActivityDescription);
                     command.Parameters.AddWithValue("@Price", activity.Price);
                     command.Parameters.AddWithValue("@CreatedAt", activity.CreatedAt);
-                    command.Parameters.AddWithValue("@UpdatedAt", activity.UpdatedAt);
 
                     command.ExecuteNonQuery();
                 }
@@ -107,7 +106,6 @@ namespace TravelPlanner.Controllers
                             ActivityDescription = reader["ActivityDescription"].ToString(),
                             Price = (decimal)reader["Price"],
                             CreatedAt = (DateTime)reader["CreatedAt"],
-                            UpdatedAt = (DateTime)reader["UpdatedAt"]
                         };
                         activities.Add(activity);
                     }

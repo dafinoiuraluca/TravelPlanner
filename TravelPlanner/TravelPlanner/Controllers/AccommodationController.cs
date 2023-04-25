@@ -48,7 +48,6 @@ namespace TravelPlanner.Controllers
                     command.Parameters.AddWithValue("@AccommodationDescription", accommodations.AccomodationDescription);
                     command.Parameters.AddWithValue("@Price", accommodations.Price);
                     command.Parameters.AddWithValue("@CreatedAt", accommodations.CreatedAt);
-                    command.Parameters.AddWithValue("@UpdatedAt", accommodations.UpdatedAt);
 
                     command.ExecuteNonQuery();
                 }
@@ -79,7 +78,6 @@ namespace TravelPlanner.Controllers
                             Price = (decimal)reader["Price"],
                             AccomodationDescription = reader["AccommodationDescription"].ToString(),
                             CreatedAt = (DateTime)reader["CreatedAt"],
-                            UpdatedAt = (DateTime)reader["UpdatedAt"]
                         };
                         accommodations.Add(accommodation);
                     }

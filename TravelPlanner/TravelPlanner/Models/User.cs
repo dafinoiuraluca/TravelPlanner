@@ -14,7 +14,6 @@ namespace TravelPlanner.Models
         public string Password { get; set; }
         public string UserType { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
         public string FullName { get; set; }
         public string ValidatePassword { get; set; }
     }

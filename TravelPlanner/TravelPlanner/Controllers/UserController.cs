@@ -24,7 +24,7 @@ namespace TravelPlanner.Controllers
         }
         public ActionResult SignedUp()
         {
-            return View();
+            return View("SignedUp");
         }
 
         [HttpPost]
@@ -43,20 +43,16 @@ namespace TravelPlanner.Controllers
             {
                 connection.Open();
 
-                string insertQuery = "INSERT INTO Users (LastName, FirstName, Email, UserPassword, UserType, CreatedAt, UpdatedAt)  " +
-                                     "VALUES (@LastName, @FirstName, @Email, @Password, @UserType, @CreatedAt, @UpdatedAt)";
+                string insertQuery = "INSERT INTO Users (LastName, FirstName, Email, UserPassword, UserType) VALUES (@LastName, @FirstName, @Email, @Password, @UserType)";
 
                 using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
-                    //command.CommandText = "SET IDENTITY_INSERT Users ON;" + insertQuery;
-                    // command.Parameters.AddWithValue("@UserId", user.UserId);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", user.Password);
                     command.Parameters.AddWithValue("@UserType", user.UserType);
-                    command.Parameters.AddWithValue("@CreatedAt", user.CreatedAt);
-                    command.Parameters.AddWithValue("@UpdatedAt", user.UpdatedAt);
+                    //command.Parameters.AddWithValue("@CreatedAt", user.CreatedAt);
 
                     command.ExecuteNonQuery();
                 }
@@ -80,12 +76,8 @@ namespace TravelPlanner.Controllers
                     return RedirectToAction("NewActivity", "Activities");
                 else return Content("signed in as user");
             }
-
-
-
-
         }
-        [HttpPost]
+        [HttpGet]
         public User SignIn(string email, string password)
         {
             User user = null;
@@ -113,8 +105,7 @@ namespace TravelPlanner.Controllers
                                 Email = (string)reader["Email"],
                                 Password = (string)reader["UserPassword"],
                                 UserType = (string)reader["UserType"],
-                                CreatedAt = (DateTime)reader["CreatedAt"],
-                                UpdatedAt = (DateTime)reader["UpdatedAt"]
+                                //CreatedAt = (DateTime)reader["CreatedAt"],
                             };
                         }
                     }

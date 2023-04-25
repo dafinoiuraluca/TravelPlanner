@@ -23,7 +23,6 @@ namespace TravelPlanner.Controllers
             if (ModelState.IsValid)
             {
                 review.CreatedAt = DateTime.Now;
-                review.UpdatedAt = DateTime.Now;
                 try
                 {
                     using (SqlConnection conn = new SqlConnection(connectionString))

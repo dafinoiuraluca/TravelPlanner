@@ -23,7 +23,6 @@ namespace TravelPlanner.Controllers
             if(ModelState.IsValid)
             {
                 bookings.CreatedAt = DateTime.Now;
-                bookings.UpdatedAt = DateTime.Now;
 
                 using(SqlConnection conn = new SqlConnection(connectionString)) 
                 {
@@ -111,7 +110,6 @@ namespace TravelPlanner.Controllers
                                 Price = (decimal)reader["Price"],
                                 AccomodationDescription = (string)reader["AccommodationDescription"],
                                 CreatedAt = (DateTime)reader["CreateAt"],
-                                UpdatedAt = (DateTime)reader["UpdatedAt"]
                             };
                         }
                     }
@@ -140,7 +138,6 @@ namespace TravelPlanner.Controllers
                                     ActivityDescription = (string)reader["ActivityDescription"],
                                     Price = (decimal)reader["Price"],
                                     CreatedAt = (DateTime)reader["CreateAt"],
-                                    UpdatedAt = (DateTime)reader["UpdatedAt"]
                                 };
                             }
                         }
