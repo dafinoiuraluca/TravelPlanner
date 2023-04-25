@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Sign Up</h1>
+
+
+    <form method="post" action="@Url.Action("CreateUser", "User")">
+
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="LastName" required>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="FirstName" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="Password" required>
+
+        <label for="userType">User Type:</label>
+        <select id="userType" name="UserType" required>
+            <option value="">-- Select User Type --</option>
+            <option value="admin">Admin</option>
+            <option value="customer">Customer</option>
+            <option value="tourguide">Tour Guide</option>
+        </select>
+
+        <label for="createdAt">Created At:</label>
+        <input type="datetime-local" id="createdAt" name="CreatedAt" required>
+
+        <label for="updatedAt">Updated At:</label>
+        <input type="datetime-local" id="updatedAt" name="UpdatedAt" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+
+
+</div>
+

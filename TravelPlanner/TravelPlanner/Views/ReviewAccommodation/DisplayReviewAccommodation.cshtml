@@ -1,0 +1,21 @@
+﻿@model List<TravelPlanner.Models.ReviewAccommodation>
+
+@{
+    ViewBag.Title = "DisplayReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Accommodation Review</h2>
+
+@foreach (var review in Model)
+{
+    <div>
+        <strong>Rating: </strong> @review.Rating
+    </div>
+    <div>
+        <strong>Comment: </strong> @review.Comment
+    </div>
+    <div>
+        <p>Created At: </p> @review.CreatedAt
+    </div>
+}

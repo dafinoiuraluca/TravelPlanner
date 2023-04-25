@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TravelPlanner.Models.Accommodation>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccomodationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccommodationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccomodationLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccomodationDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccomodationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccommodationType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccomodationLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccomodationDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
