@@ -1,0 +1,22 @@
+﻿.destination-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.destination {
+    background-color: #f1f1f1;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 30%;
+}
+
+    .destination h2 {
+        margin-top: 0;
+    }
+
+    .destination p {
+        font-size: 16px;
+        line-height: 1.4;
+    }
