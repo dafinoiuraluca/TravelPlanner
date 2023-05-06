@@ -1,0 +1,22 @@
+﻿<div class="text-center">
+    <h1 class="display-4">Add accommodation</h1>
+    <link href="~/Accommodation.css" rel="stylesheet" type="text/css">
+    <form method="post" action="@Url.Action("CreateAccomodation", "Accommodation")">
+        <label for="AccommodationName">Accommodation Name:</label>
+        <input type="text" id="AccommodationName" name="AccomodationName" required>
+
+        <label for="AccommodationType">Accommodation Type:</label>
+        <input type="text" id="AccommodationType" name="AccommodationType" required>
+
+        <label for="AccommodationLocation">Accommodation Location:</label>
+        <input type="text" id="AccommodationLocation" name="AccommodationLocation" required>
+
+        <label for="AccommodationDescription">Accommodation Description:</label>
+        <input type="text" id="AccommodationDescription" name="AccomodationDescription" required>
+
+        <label for="Price">Price:</label>
+        <input type="text" id="Price" name="Price" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>

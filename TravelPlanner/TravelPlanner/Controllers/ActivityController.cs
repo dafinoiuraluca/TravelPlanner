@@ -11,9 +11,15 @@ namespace TravelPlanner.Controllers
 {
     public class ActivityController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
         // GET: Activity
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult NewActivity()
         {
             return View();
         }
@@ -22,24 +28,32 @@ namespace TravelPlanner.Controllers
         [HttpPost]
         public ActionResult CreateActivity(Activities activity)
         {
-            using(SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string queryToInsertActivity = "INSERT INTO Activities(ActivityName, ActivityType, ActivityDescription, Price, CreatedAt, UpdatedAt) VALUES (@ActivityName, @ActivityType, @ActivityDescription, @Price, @CreatedAt, @UpdatedAt)";
+            CreateNewActivity(activity);
 
-                using (SqlCommand command = new SqlCommand(queryToInsertActivity, conn))
+            return Content("Added activity"); ;
+        }
+
+        public void CreateNewActivity(Activities activity)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string insertQuery = "INSERT INTO Activities (ActivityName, ActivityType, ActivityDescription, Price, CreatedAt, UpdatedAt)  " +
+                                     "VALUES (@ActivityName, @ActivityType, @ActivityDescription, @Price, @CreatedAt, @UpdatedAt)";
+
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@ActivityName", activity.ActivityName);
                     command.Parameters.AddWithValue("@ActivityType", activity.ActivityType);
                     command.Parameters.AddWithValue("@ActivityDescription", activity.ActivityDescription);
                     command.Parameters.AddWithValue("@Price", activity.Price);
-                    command.Parameters.AddWithValue("@CreatedAt", activity.CreatedAt);
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+                    command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
             }
-
-            return Content("Activity Added Successfully");
         }
 
 

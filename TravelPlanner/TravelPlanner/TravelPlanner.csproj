@@ -153,6 +153,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddActivity.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -213,6 +214,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Accommodation.css" />
+    <Content Include="AccommodationView.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -234,10 +237,12 @@
     <Content Include="Views\Accommodation\ViewAccommodation.cshtml" />
     <Content Include="Views\Accommodation\CreateNewAccommodation.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
+    <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
+    <Content Include="Views\Activity\NewActivity.cshtml" />
+    <Content Include="Views\Accommodation\AccommodationView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Activity\" />
     <Folder Include="Views\Bookings\" />
   </ItemGroup>
   <ItemGroup>
