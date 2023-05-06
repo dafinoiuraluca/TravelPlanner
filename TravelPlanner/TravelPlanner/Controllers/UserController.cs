@@ -26,24 +26,19 @@ namespace TravelPlanner.Controllers
         {
             return View("SignedUp");
         }
-
-        [HttpPost]
-        public ActionResult CreateUser(User user)
+        public ActionResult SignIn()
         {
-            // Call the SignUp method here
-            SignUp(user);
-
-            return RedirectToAction("SignedUp");
+            return View("SignIn");
         }
 
-
-        public void SignUp(User user)
+        [HttpPost]
+        public ActionResult SignUp(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                string insertQuery = "INSERT INTO Users (LastName, FirstName, Email, UserPassword, UserType) VALUES (@LastName, @FirstName, @Email, @Password, @UserType)";
+                string insertQuery = "INSERT INTO Users(LastName, FirstName, Email, UserPassword, UserType) VALUES (@LastName, @FirstName, @Email, @Password, @UserType)";
 
                 using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
@@ -51,37 +46,57 @@ namespace TravelPlanner.Controllers
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", user.Password);
-                    command.Parameters.AddWithValue("@UserType", user.UserType);
-                    //command.Parameters.AddWithValue("@CreatedAt", user.CreatedAt);
+
+                    string userType = Request.Form["user-type"];
+                    if (string.IsNullOrEmpty(user.UserType))
+                    {
+                        command.Parameters.AddWithValue("@UserType", "Customer");
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@UserType", user.UserType);
+                    }
+
 
                     command.ExecuteNonQuery();
                 }
             }
+            return RedirectToAction("SignedUp");
         }
 
 
         [HttpPost]
-        public ActionResult CheckCredentials(string email, string password)
+        public ActionResult SignIn(string email, string password)
         {
-            // Call the SignUp method here
-
-            if (SignIn(email, password) == null)
-
-                return Content("Wrong email or password! Try again");
+            User user = ValidateUser(email, password);
+            if (user == null)
+            {
+                return Content("Wrong email or password! Please try again.");
+            }
             else
             {
-                if (SignIn(email, password).UserType == "admin")
-                    return RedirectToAction("NewAccomodation", "Accomodations");
-                else if (SignIn(email, password).UserType == "tourguide")
-                    return RedirectToAction("NewActivity", "Activities");
-                else return Content("signed in as user");
+                if (user.UserType == "Customer")
+                {
+                    return RedirectToAction("SignIn");
+                }
+                else if (user.UserType == "Manager")
+                {
+                    return RedirectToAction("SignIn");
+                }
+                else if (user.UserType == "Local")
+                {
+                    return RedirectToAction("SignIn");
+                }
+                else
+                {
+                    return RedirectToAction("SignIn");
+                }
             }
         }
-        [HttpGet]
-        public User SignIn(string email, string password)
+
+        private User ValidateUser(string email, string password)
         {
             User user = null;
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -105,13 +120,11 @@ namespace TravelPlanner.Controllers
                                 Email = (string)reader["Email"],
                                 Password = (string)reader["UserPassword"],
                                 UserType = (string)reader["UserType"],
-                                //CreatedAt = (DateTime)reader["CreatedAt"],
                             };
                         }
                     }
                 }
             }
-
             return user;
         }
     }

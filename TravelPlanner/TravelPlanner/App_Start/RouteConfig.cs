@@ -14,9 +14,15 @@ namespace TravelPlanner
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "UserLogin",
-                url: "User/SignIn",
-                defaults: new { controller = "User", action = "SignIn" }
+                name: "UserSignUp",
+                url: "UserController/SignUp",
+                defaults: new { controller = "UserController", action = "SignUp"}
+                );
+
+            routes.MapRoute(
+                name: "Login",
+                url: "UserController/SignIn",
+                defaults: new { controller = "UserController", action = "SignIn" }
                 );
 
             routes.MapRoute(

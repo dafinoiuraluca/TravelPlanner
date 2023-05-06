@@ -9,7 +9,7 @@
 <body>
     <div class="register-container">
         <h1>Register</h1>
-        <form method="post" action="@System.Web.Mvc.UrlHelper.GenerateUrl(null, "CreateUser", "User", null, null, null, false)">
+        <form method="post" action="@Url.Action("SignUp", "User", new {Area = "User"})">
             <label for="lastname">Last Name:</label>
             <input type="text" id="lastname" name="lastname" required>
             <br />
@@ -27,10 +27,11 @@
             <br />
 
             <label for="user-type">User Type:</label>
-            <select id="user-type" name="user-type" required>
-                <option value="customer">Customer</option>
-                <option value="manager">Manager</option>
-                <option value="local">Local</option>
+            <select id="user-type" name="UserType" required>
+                <option value="">--Select User Type--</option>
+                <option value="Customer">Customer</option>
+                <option value="Manager">Manager</option>
+                <option value="Local">Local</option>
             </select>
             <button type="submit">Register</button>
         </form>
