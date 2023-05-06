@@ -6,14 +6,22 @@ using System.Web;
 using System.Web.Mvc;
 using TravelPlanner.Models;
 using Microsoft.AspNet.Identity;
+using System.EnterpriseServices;
 
 namespace TravelPlanner.Controllers
 {
     public class ActivityController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+
         // GET: Activity
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult NewActivity()
         {
             return View();
         }
@@ -22,24 +30,32 @@ namespace TravelPlanner.Controllers
         [HttpPost]
         public ActionResult CreateActivity(Activities activity)
         {
-            using(SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string queryToInsertActivity = "INSERT INTO Activities(ActivityName, ActivityType, ActivityDescription, Price, CreatedAt, UpdatedAt) VALUES (@ActivityName, @ActivityType, @ActivityDescription, @Price, @CreatedAt, @UpdatedAt)";
+            CreateNewActivity(activity);
 
-                using (SqlCommand command = new SqlCommand(queryToInsertActivity, conn))
+            return Content("Added activity"); ;
+        }
+
+        public void CreateNewActivity(Activities activity)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string insertQuery = "INSERT INTO Activities (ActivityName, ActivityType, ActivityDescription, Price, CreatedAt, UpdatedAt)  " +
+                                     "VALUES (@ActivityName, @ActivityType, @ActivityDescription, @Price, @CreatedAt, @UpdatedAt)";
+
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@ActivityName", activity.ActivityName);
                     command.Parameters.AddWithValue("@ActivityType", activity.ActivityType);
                     command.Parameters.AddWithValue("@ActivityDescription", activity.ActivityDescription);
                     command.Parameters.AddWithValue("@Price", activity.Price);
-                    command.Parameters.AddWithValue("@CreatedAt", activity.CreatedAt);
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+                    command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
             }
-
-            return Content("Activity Added Successfully");
         }
 
 
@@ -84,6 +100,7 @@ namespace TravelPlanner.Controllers
         //WISH LIST - cred ca trebe inca un tabel in DB cu UserId si ActivityId
 
         // SEARCH
+        [HttpGet]
         public ActionResult SearchActivity(string searchActivty)
         {
             List<Activities> activities = new List<Activities>();
@@ -111,8 +128,52 @@ namespace TravelPlanner.Controllers
                     }
                 }
             }
-            return View("ViewActivities", activities);
+            return View("ActivitiesView", activities);
         }
         //Check If Is Already In WishList
+
+
+        //View all activities 
+        [HttpGet]
+        public ActionResult ActivitiesView()
+        {
+            List<Activities> activities = GetAllActivities();
+            return View(activities);
+        }
+
+
+        public List<Activities> GetAllActivities()
+        {
+            List<Activities> activities = new List<Activities>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string selectQuery = "SELECT * FROM Activities";
+
+                using (SqlCommand command = new SqlCommand(selectQuery, connection))
+                {
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Activities activity = new Activities();
+
+
+                        activity.ActivityName = (string)reader["ActivityName"];
+                        activity.ActivityType = (string)reader["ActivityType"];
+                        activity.ActivityDescription = (string)reader["ActivityDescription"];
+                        activity.Price = (decimal)reader["Price"];
+
+                        activities.Add(activity);
+                    }
+                }
+            }
+
+            return activities;
+        }
+
+
     }
 }

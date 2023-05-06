@@ -1,0 +1,20 @@
+﻿<div class="text-center">
+    <h1 class="display-4">Add activity</h1>
+    <link href="~/AddActivity.css" rel="stylesheet" type="text/css">
+    <form method="post" action="@Url.Action("CreateActivity", "Activity")">
+
+        <label for="ActivityName">Activity Name:</label>
+        <input type="text" id="ActivityName" name="activity.ActivityName" required>
+
+        <label for="ActivityType">Activity Type:</label>
+        <input type="text" id="ActivityType" name="activity.ActivityType" required>
+
+        <label for="ActivityDescription">Activity Description:</label>
+        <input type="text" id="ActivityDescription" name="activity.ActivityDescription" required>
+
+        <label for="Price">Price:</label>
+        <input type="text" id="Price" name="activity.Price" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
