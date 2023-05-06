@@ -6,12 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using TravelPlanner.Models;
 using Microsoft.AspNet.Identity;
+using System.EnterpriseServices;
 
 namespace TravelPlanner.Controllers
 {
     public class ActivityController : Controller
     {
         string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+
         // GET: Activity
         public ActionResult Index()
         {
@@ -98,6 +100,7 @@ namespace TravelPlanner.Controllers
         //WISH LIST - cred ca trebe inca un tabel in DB cu UserId si ActivityId
 
         // SEARCH
+        [HttpGet]
         public ActionResult SearchActivity(string searchActivty)
         {
             List<Activities> activities = new List<Activities>();
@@ -125,8 +128,52 @@ namespace TravelPlanner.Controllers
                     }
                 }
             }
-            return View("ViewActivities", activities);
+            return View("ActivitiesView", activities);
         }
         //Check If Is Already In WishList
+
+
+        //View all activities 
+        [HttpGet]
+        public ActionResult ActivitiesView()
+        {
+            List<Activities> activities = GetAllActivities();
+            return View(activities);
+        }
+
+
+        public List<Activities> GetAllActivities()
+        {
+            List<Activities> activities = new List<Activities>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string selectQuery = "SELECT * FROM Activities";
+
+                using (SqlCommand command = new SqlCommand(selectQuery, connection))
+                {
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Activities activity = new Activities();
+
+
+                        activity.ActivityName = (string)reader["ActivityName"];
+                        activity.ActivityType = (string)reader["ActivityType"];
+                        activity.ActivityDescription = (string)reader["ActivityDescription"];
+                        activity.Price = (decimal)reader["Price"];
+
+                        activities.Add(activity);
+                    }
+                }
+            }
+
+            return activities;
+        }
+
+
     }
 }

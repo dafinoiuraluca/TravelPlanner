@@ -240,6 +240,7 @@
     <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
     <Content Include="Views\Activity\NewActivity.cshtml" />
     <Content Include="Views\Accommodation\AccommodationView.cshtml" />
+    <Content Include="Views\Activity\ActivitiesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
