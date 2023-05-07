@@ -1,24 +1,49 @@
-﻿@model List<TravelPlanner.Models.DestinationRecommandation>
-@{
-    ViewBag.Title = "DestinationsView";
-}
+﻿@model TravelPlanner.Models.DestinationRecommandationDefinition
 
 <!DOCTYPE html>
-<html>
+<html style="font-size: 16px;">
 <head>
-    <title>Destination Recommendations</title>
-    <link href="~/Content/DestinationRecommandation.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title></title>
+    <link rel="stylesheet" href="/nicepage.css" media="screen">
+    <script class="u-script" type="text/javascript" src="np://app.desktop.nicepage.com/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="np://app.desktop.nicepage.com/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 5.9.10, nicepage.com">
 </head>
-<body>
-    <div class="destination-container">
-        @foreach (var destination in Model)
-        {
-            <div class="destination">
-                <h2>@destination.CityName</h2>
-                <p>@destination.CityDescription</p>
-            </div>
-        }
-    </div>
+<body class="u-body u-xl-mode" data-style="blank" data-posts="" data-global-section-properties="{&quot;colorings&quot;:{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}}" data-source="" data-lang="en" data-page-sections-style="[{&quot;name&quot;:&quot;blank&quot;}]" data-page-coloring-types="{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}" data-page-category="&quot;Basic&quot;">
+    <section class="u-clearfix u-block-a769-1" custom-posts-hash="[]" data-style="blank" data-section-properties="{&quot;margin&quot;:&quot;none&quot;,&quot;stretch&quot;:true}" id="sec-75f4" data-id="a769">
+        <div class="u-clearfix u-sheet u-block-a769-2">
+            <div class="u-clearfix u-layout-wrap u-block-a769-3">
+                <div class="u-layout">
+                    @for(int i = 0; i < TravelPlanner.Models.DestinationRecommandationDefinition.recommandations.Count; i += 2)
+                     {
+                        <div class="u-layout-row">
+                            <div class="u-container-style u-layout-cell u-size-30 u-block-a769-4">
+                                <div class="u-container-layout u-block-a769-5">
+                                    <h2>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityName</h2>
+                                    @*<img src="@Url.Content("~/Images/" + DestinationRecommandationDefinition.recommandations[i].CityName + ".jpg")" alt="@DestinationRecommandationDefinition.recommandations[i].CityName" />*@
+                                    <p>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityDescription</p>
+                                </div>
+                            </div>
+                            @if (i + 1 < TravelPlanner.Models.DestinationRecommandationDefinition.recommandations.Count)
+                            {
+                                <div class="u-container-style u-layout-cell u-size-30 u-block-a769-6">
+                                    <div class="u-container-layout u-block-a769-7">
+                                        <h2>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i + 1].CityName</h2>
+                                        @*<img src="@Url.Content("~/Images/" + DestinationRecommandationDefinition.recommandations[i+1].CityName + ".jpg")" alt="@DestinationRecommandationDefinition.recommandations[i+1].CityName" />*@
+                                        <p>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i + 1].CityDescription</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                     }
+                    </div>
+              </div>
+        </div>
+
+    </section>
 </body>
 </html>
-

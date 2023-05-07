@@ -6,19 +6,21 @@
     <link rel="stylesheet" type="text/css" href="~/HomePage.css">
 </head>
 <body>
-    <header class="header">
+    <header class="header" style="display: flex; justify-content: space-between;">
         <h1>Welcome to TravelPlanner</h1>
         <div class="buttons">
             <button class="btn" onclick="window.location='@Url.Action("SignIn", "User")'">Log In</button>
             <button class="btn" onclick="window.location='@Url.Action("SignedUp", "User")'">Sign Up</button>
         </div>
     </header>
-    <div class="Message">
-        <img src="~/bus.png" alt="Travel Photo" style="float: left">
-        <h2>Discover Your Next Adventure</h2>
-        <p>At TravelPlanner, we're passionate about helping you plan the perfect trip. Whether you're looking for a relaxing beach getaway or an exciting city adventure, our travel experts are here to help.</p>
-        <a href="~/Views/DestinationsView.cshtml" class="btn">Explore Destinations</a>
-    </div>
+    <br /><br /> 
+          <div class="Message" style="display: flex; justify-content: flex-end;">
+              <div style="flex: 1;">
+                  <img src="~/bus.png" alt="Travel Photo" style="float: left">
+                  <h2>Discover Your Next Adventure</h2>
+                  <p>At TravelPlanner, we're passionate about helping you plan the perfect trip. Whether you're looking for a relaxing beach getaway or an exciting city adventure, our travel experts are here to help.</p>
+                  <a href="@Url.Action("About", "Home")" class="btn">Explore Destinations</a>
+              </div>
 </body>
 </html>
 
