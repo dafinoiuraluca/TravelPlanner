@@ -26,5 +26,10 @@ namespace TravelPlanner.Controllers
 
             return View();
         }
+
+        public ActionResult Start()
+        {
+            return View("HomePageView");
+        }
     }
 }

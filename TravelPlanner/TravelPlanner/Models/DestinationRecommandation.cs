@@ -7,7 +7,7 @@ namespace TravelPlanner.Models
 {
     public class DestinationRecommandation
     {
-        public List<String> City { get; set; }
-        public string Description { get; set; }
+        public string CityName { get; set; }
+        public string CityDescription { get; set; }
     }
 }

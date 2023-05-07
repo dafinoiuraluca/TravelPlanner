@@ -1,0 +1,24 @@
+﻿@model List<TravelPlanner.Models.DestinationRecommandation>
+@{
+    ViewBag.Title = "DestinationsView";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Destination Recommendations</title>
+    <link href="~/Content/DestinationRecommandation.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="destination-container">
+        @foreach (var destination in Model)
+        {
+            <div class="destination">
+                <h2>@destination.CityName</h2>
+                <p>@destination.CityDescription</p>
+            </div>
+        }
+    </div>
+</body>
+</html>
+
