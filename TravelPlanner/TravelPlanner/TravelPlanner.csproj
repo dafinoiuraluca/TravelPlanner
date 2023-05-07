@@ -254,9 +254,11 @@
     <Content Include="Views\ReviewActivity\DisplayReviewActivity.cshtml" />
     <Content Include="Views\User\SignedUp.cshtml" />
     <Content Include="Views\User\New.cshtml" />
-    <Content Include="Views\Accommodation\ViewAccommodation.cshtml" />
-    <Content Include="Views\Accommodation\CreateNewAccommodation.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
+    <Content Include="Views\Accommodation\AccommodationView.cshtml" />
+    <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
+    <Content Include="Views\ActivitiesView.cshtml" />
+    <Content Include="Views\NewActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

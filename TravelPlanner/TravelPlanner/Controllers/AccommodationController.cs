@@ -10,7 +10,7 @@ namespace TravelPlanner.Controllers
 {
     public class AccommodationController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
         // GET: Accomodations
         public ActionResult Index()
         {
@@ -37,8 +37,8 @@ namespace TravelPlanner.Controllers
             {
                 connection.Open();
 
-                string insertQuery = "INSERT INTO Accommodations (AccommodationName, AccommodationType, AccommodationLocation, AccommodationDescription, Price, CreatedAt, UpdatedAt) " +
-                                     "VALUES (@AccommodationName, @AccommodationType, @AccommodationLocation, @AccommodationDescription, @Price, @CreatedAt, @UpdatedAt)";
+                string insertQuery = "INSERT INTO Accommodations (AccommodationName, AccommodationType, AccommodationLocation, AccommodationDescription, Price, CreatedAt) " +
+                                     "VALUES (@AccommodationName, @AccommodationType, @AccommodationLocation, @AccommodationDescription, @Price, @CreatedAt)";
 
                 using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
@@ -48,7 +48,6 @@ namespace TravelPlanner.Controllers
                     command.Parameters.AddWithValue("@AccommodationDescription", accommodations.AccomodationDescription);
                     command.Parameters.AddWithValue("@Price", accommodations.Price);
                     command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
-                    command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
 
                     command.ExecuteNonQuery();
                 }
