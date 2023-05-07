@@ -257,7 +257,6 @@
     <Content Include="Views\Accommodation\ViewAccommodation.cshtml" />
     <Content Include="Views\Accommodation\CreateNewAccommodation.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
-    <Content Include="Views\DestinationsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
