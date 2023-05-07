@@ -13,7 +13,6 @@ namespace TravelPlanner
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
             routes.MapRoute(
                 name: "UserSignUp",
                 url: "UserController/SignUp",
@@ -29,7 +28,7 @@ namespace TravelPlanner
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Start", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -153,7 +153,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bus.png" />
+    <Content Include="AddActivity.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -173,7 +173,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="HomePage.css" />
     <Content Include="Login.css" />
     <Content Include="Register.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -238,7 +237,10 @@
     <Content Include="Views\Accommodation\ViewAccommodation.cshtml" />
     <Content Include="Views\Accommodation\CreateNewAccommodation.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
-    <Content Include="Views\DestinationsView.cshtml" />
+    <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
+    <Content Include="Views\Activity\NewActivity.cshtml" />
+    <Content Include="Views\Accommodation\AccommodationView.cshtml" />
+    <Content Include="Views\Activity\ActivitiesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -252,9 +254,6 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
