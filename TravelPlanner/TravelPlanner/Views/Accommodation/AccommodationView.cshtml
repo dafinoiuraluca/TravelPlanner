@@ -4,7 +4,7 @@
 {
     <div class="form-group">
         @Html.Label("Search Accommodation:")
-        @Html.TextBox("searchAccommodation", null, new { @class = "form-control" })
+        @Html.TextBox("locationAccommodation", null, new { @class = "form-control" })
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 }
@@ -56,7 +56,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
-
+                <td>
+                    @Html.ActionLink("Book", "BookAccommodationView", "Bookings", new { id = item.AccommodationId }, null)
+                </td>
             </tr>
         }
     </tbody>

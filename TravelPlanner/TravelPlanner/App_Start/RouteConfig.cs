@@ -13,6 +13,11 @@ namespace TravelPlanner
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                    name:"BookAccommodationView",
+                    url:"Bookings/BookAccommodationView/{id}",
+                    defaults: new { controller = "Bookings", action = "BookAccommodationView", id = UrlParameter.Optional }
+                );
 
             routes.MapRoute(
                 name: "UserSignUp",

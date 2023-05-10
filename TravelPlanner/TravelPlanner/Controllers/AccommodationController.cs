@@ -61,11 +61,11 @@ namespace TravelPlanner.Controllers
             List<Accommodation> accommodations = new List<Accommodation>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string queryToSearch = "SELECT * FROM Accommodations WHERE AccommodationName LIKE @searchAccommodation";
+                conn.Open();
+                string queryToSearch = "SELECT * FROM Accommodations WHERE AccommodationLocation LIKE @locationAccommodation";
                 using (SqlCommand command = new SqlCommand(queryToSearch, conn))
                 {
-                    command.Parameters.AddWithValue("@searchAccommodation", "%" + searchAccommodation + "%");
-                    conn.Open();
+                    command.Parameters.AddWithValue("@locationAccommodation", "%" + searchAccommodation + "%");
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())

@@ -10,7 +10,7 @@ namespace TravelPlanner.Controllers
 {
     public class BookingsController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
         // GET: Bookings
         public ActionResult Index()
         {
@@ -41,6 +41,33 @@ namespace TravelPlanner.Controllers
                     {
                         cmd.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
                         decimal price = (decimal)cmd.ExecuteScalar();
+                    }
+                }
+            }
+            return View();
+        }
+
+
+        // Retrieve the name
+        public ActionResult BookAccommodationView(int id)
+        {
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT AccommodationName, AccommodationDescription FROM Accommodations WHERE AccommodationId = @Id";
+                using(SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using(SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if(reader.Read())
+                        {
+                            string accommodationName = reader.GetString(0);
+                            string accommodationDescription = reader.GetString(1);
+
+                            ViewBag.AccommodationName = accommodationName;
+                            ViewBag.AccommodationDescription = accommodationDescription;
+                        }
                     }
                 }
             }
