@@ -18,61 +18,117 @@ namespace TravelPlanner.Controllers
         }
 
         [HttpPost]
-        public ActionResult BookAccommodation(Bookings bookings)
+        public ActionResult BookAccommodation(BookAccommodationViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                // Map the selected accommodation details to the Bookings model
+                Bookings bookings = new Bookings
+                {
+                    AccommodationId = model.AccommodationId,
+                    CheckInDate = model.CheckInDate,
+                    CheckOutDate = model.CheckOutDate,
+                };
+
+                TimeSpan stayDuration = bookings.CheckOutDate.Date.Subtract(bookings.CheckInDate.Date);
+                int numberOfNights = stayDuration.Days;
+                decimal totalPrice = model.Price * numberOfNights;
+
+                bookings.TotalPrice = totalPrice;
                 bookings.CreatedAt = DateTime.Now;
 
-                using(SqlConnection conn = new SqlConnection(connectionString)) 
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string queryCheckAvailabilty = "SELECT COUNT(*) FROM Bookings WHERE AccommodationId = @AccommodationId AND (CheckInDate <= @ CheckInDate AND CheckOutDate > @CheckOutDate)";
 
-                    using(SqlCommand command = new SqlCommand(queryCheckAvailabilty, conn))
+                    string queryInsertBooking = "INSERT INTO Bookings (AccommodationId, CheckInDate, CheckOutDate, TotalPrice, CreatedAt) " +
+                                                "VALUES (@AccommodationId, @CheckInDate, @CheckOutDate, @TotalPrice, @CreatedAt)";
+
+                    using (SqlCommand insertCommand = new SqlCommand(queryInsertBooking, conn))
                     {
-                        command.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
-                        command.Parameters.AddWithValue("@CheckInDate", bookings.CheckInDate);
-                        command.Parameters.AddWithValue("@CheckOutDate", bookings.CheckOutDate);
+                        insertCommand.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
+                        insertCommand.Parameters.AddWithValue("@CheckInDate", bookings.CheckInDate);
+                        insertCommand.Parameters.AddWithValue("@CheckOutDate", bookings.CheckOutDate);
+                        insertCommand.Parameters.AddWithValue("@TotalPrice", bookings.TotalPrice);
+                        insertCommand.Parameters.AddWithValue("@CreatedAt", bookings.CreatedAt);
+
+                        insertCommand.ExecuteNonQuery();
                     }
+                }
 
-                    string queryGetPricePerNight = "SELECT Price FROM Accommodation Where AccommodationId = @AccommodationId";
-                    using(SqlCommand cmd = new SqlCommand(queryGetPricePerNight, conn))
+                // Redirect to the confirmation page with the accommodation details and total price
+                return RedirectToAction("Confirmation", new { accommodationId = bookings.AccommodationId, totalPrice });
+            }
+
+            return RedirectToAction("Confirmation", new { id = model.AccommodationId });
+        }
+
+
+
+
+        private Accommodation GetAccommodationById(int accommodationId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT * FROM Accommodations WHERE AccommodationId = @AccommodationId";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@AccommodationId", accommodationId);
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
-                        decimal price = (decimal)cmd.ExecuteScalar();
+                        if (reader.Read())
+                        {
+                            Accommodation accommodation = new Accommodation
+                            {
+                                AccommodationId = (int)reader["AccommodationId"],
+                                AccomodationName = (string)reader["AccommodationName"],
+                                AccommodationType = (string)reader["AccommodationType"],
+                                AccommodationLocation = (string)reader["AccommodationLocation"],
+                                Price = (decimal)reader["Price"],
+                                AccomodationDescription = (string)reader["AccommodationDescription"],
+                                CreatedAt = (DateTime)reader["CreatedAt"]
+                            };
+
+                            return accommodation;
+                        }
                     }
                 }
             }
-            return View();
+
+            return null; // Return null if no accommodation is found with the specified ID
         }
 
 
         // Retrieve the name
         public ActionResult BookAccommodationView(int id)
         {
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            BookAccommodationViewModel model = new BookAccommodationViewModel();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT AccommodationName, AccommodationDescription FROM Accommodations WHERE AccommodationId = @Id";
-                using(SqlCommand command = new SqlCommand(query, connection))
+                string query = "SELECT AccommodationName, AccommodationDescription, AccommodationType, AccommodationLocation, Price FROM Accommodations WHERE AccommodationId = @Id";
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
-                    using(SqlDataReader reader = command.ExecuteReader())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if(reader.Read())
+                        if (reader.Read())
                         {
-                            string accommodationName = reader.GetString(0);
-                            string accommodationDescription = reader.GetString(1);
-
-                            ViewBag.AccommodationName = accommodationName;
-                            ViewBag.AccommodationDescription = accommodationDescription;
+                            model.AccommodationName = reader.GetString(0);
+                            model.AccommodationDescription = reader.GetString(1);
+                            model.AccommodationType = reader.GetString(2);
+                            model.AccommodationLocation = reader.GetString(3);
+                            model.Price = reader.GetDecimal(4);
                         }
                     }
                 }
             }
-            return View();
+
+            return View(model);
         }
+ 
 
         [HttpPost]
         public ActionResult CancelTrip(int bookingId)

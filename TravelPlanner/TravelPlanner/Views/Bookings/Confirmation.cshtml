@@ -1,0 +1,21 @@
+﻿@model TravelPlanner.Models.Accommodation
+
+@{
+    ViewData["Title"] = "Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Booking Confirmation</h2>
+
+<h3>Accommodation Details</h3>
+<p><strong>Accommodation Name:</strong> @Model.AccommodationName</p>
+<p><strong>Accommodation Description:</strong> @Model.AccommodationDescription</p>
+<p><strong>Accommodation Type:</strong> @Model.AccommodationType</p>
+<p><strong>Price per Night:</strong> @Model.Price</p>
+
+<h3>Booking Details</h3>
+<p><strong>Check-In Date:</strong> @Model.CheckInDate.ToShortDateString()</p>
+<p><strong>Check-Out Date:</strong> @Model.CheckOutDate.ToShortDateString()</p>
+<p><strong>Total Price:</strong> @Model.TotalPrice</p>
+
+<p>Thank you for your booking!</p>
