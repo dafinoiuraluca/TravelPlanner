@@ -131,6 +131,5 @@ namespace TravelPlanner.Controllers
 
             return accommodations;
         }
-
     }
 }

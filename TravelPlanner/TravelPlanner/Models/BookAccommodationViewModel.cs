@@ -7,6 +7,7 @@ namespace TravelPlanner.Models
 {
     public class BookAccommodationViewModel
     {
+        public int BookingId { get; set; }
         public int AccommodationId { get; set; }
         public string AccommodationName { get; set; }
         public string AccommodationDescription { get; set; }

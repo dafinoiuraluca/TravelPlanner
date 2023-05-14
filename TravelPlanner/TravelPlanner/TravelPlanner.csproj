@@ -144,9 +144,11 @@
     </Compile>
     <Compile Include="Models\Accommodation.cs" />
     <Compile Include="Models\Activities.cs" />
+    <Compile Include="Models\BookAccommodationViewModel.cs" />
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\DestinationRecommandation.cs" />
     <Compile Include="Models\DestinationRecommandationDefinition.cs" />
+    <Compile Include="Models\ItineraryViewModel.cs" />
     <Compile Include="Models\ReviewAccommodation.cs" />
     <Compile Include="Models\ReviewActivity.cs" />
     <Compile Include="Models\User.cs" />
@@ -259,10 +261,12 @@
     <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
     <Content Include="Views\ActivitiesView.cshtml" />
     <Content Include="Views\NewActivity.cshtml" />
+    <Content Include="Views\Bookings\BookAccommodationView.cshtml" />
+    <Content Include="Views\Shared\_NavBar.cshtml" />
+    <Content Include="Views\Bookings\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Bookings\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

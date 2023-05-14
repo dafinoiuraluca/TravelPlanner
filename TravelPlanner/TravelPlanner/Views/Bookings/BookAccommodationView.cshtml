@@ -28,5 +28,13 @@
     <img src="~/Images/random-photo.jpg" alt="Random Photo">
     <br>
 
-    <button type="submit">Book</button>
+    <button type="submit" onclick="redirectToConfirmation()">Book</button>
 </form>
+
+<script>
+    function redirectToConfirmation() {
+        document.getElementById("bookForm").submit();
+        var bookingId = @Model.BookingId; // Assuming you have the BookingId set in the model
+        window.location.href = '@Url.Action("Confirmation", "Bookings")' + '?bookingId=' + bookingId;
+    }
+</script>

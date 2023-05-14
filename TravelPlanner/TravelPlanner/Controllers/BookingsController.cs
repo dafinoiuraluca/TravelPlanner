@@ -19,25 +19,41 @@ namespace TravelPlanner.Controllers
             return View();
         }
 
+        public ActionResult StoreAccommodationIdAndRedirect(int accommodationId, string actionName, string controllerName)
+        {
+            Session["AccommodationId"] = accommodationId;
+            return RedirectToAction(actionName, controllerName);
+        }
+
+
         [HttpPost]
-        public ActionResult BookAccommodation(BookAccommodationViewModel model)
+        public ActionResult BookAccommodation(BookAccommodationViewModel model, int accommodationId)
         {
             if (ModelState.IsValid)
             {
                 int userId = 0;
-                var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (authCookie != null)
+
+                //User
+                var authCookieUser = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (authCookieUser != null)
                 {
-                    var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                    var ticket = FormsAuthentication.Decrypt(authCookieUser.Value);
                     int.TryParse(ticket.Name, out userId);
                 }
 
-                if(userId != 0)
+                //Accommodation
+                if (Session["AccommodationId"] != null)
+                {
+                    accommodationId = (int)Session["AccommodationId"];
+                }
+
+
+                if (userId != 0 && accommodationId != 0)
                 {
                     Bookings bookings = new Bookings
                     {
                         UserId = userId,
-                        AccommodationId = model.AccommodationId,
+                        AccommodationId = accommodationId,
                         CheckInDate = model.CheckInDate,
                         CheckOutDate = model.CheckOutDate,
                     };
@@ -65,102 +81,58 @@ namespace TravelPlanner.Controllers
                             insertCommand.Parameters.AddWithValue("@TotalPrice", bookings.TotalPrice);
                             insertCommand.Parameters.AddWithValue("@CreatedAt", bookings.CreatedAt);
 
-                            insertCommand.ExecuteNonQuery();
+                            insertCommand.ExecuteScalar();
                         }
                     }
+                    int bookingId = 0;
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
 
-                    return RedirectToAction("Confirmation", new { accommodationId = bookings.AccommodationId, totalPrice });
+                        string queryGetBookingId = "SELECT TOP 1 BookingId FROM Bookings ORDER BY BookingId DESC";
+                        using (SqlCommand command = new SqlCommand(queryGetBookingId, connection))
+                        {
+                            object result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                bookingId = (int)result;
+                            }
+                        }
+
+                        string queryGetBooking = "SELECT BookingId, UserId, AccommodationId, CheckInDate, CheckOutDate, TotalPrice, CreatedAt " +
+                                                 "FROM Bookings " +
+                                                 "WHERE BookingId = @BookingId";
+
+                        using (SqlCommand getBookingCommand = new SqlCommand(queryGetBooking, connection))
+                        {
+                            getBookingCommand.Parameters.AddWithValue("@BookingId", bookingId);
+
+                            using (SqlDataReader reader = getBookingCommand.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    bookings = new Bookings
+                                    {
+                                        BookingId = (int)reader["BookingId"],
+                                        UserId = (int)reader["UserId"],
+                                        AccommodationId = (int)reader["AccommodationId"],
+                                        CheckInDate = (DateTime)reader["CheckInDate"],
+                                        CheckOutDate = (DateTime)reader["CheckOutDate"],
+                                        TotalPrice = (decimal)reader["TotalPrice"],
+                                        CreatedAt = (DateTime)reader["CreatedAt"]
+                                    };
+
+                                    return RedirectToAction("Confirmation", new { bookingId = bookings.BookingId });
+                                }
+                            }
+                        }
+                    }
                 }
-                
             }
-
             return RedirectToAction("Confirmation", new { id = model.AccommodationId });
         }
+            
 
-
-        //private int GetLoggedInUserId()
-        //{
-        //    if(User.Identity.IsAuthenticated)
-        //    {
-        //        var claimsIdentity = User.Identity as ClaimsIdentity;
-        //        var userIdClaim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
-        //        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
-        //        {
-        //            return userId;
-        //        }
-        //    }
-        //    return 0;
-        //}
-
-        private Accommodation GetAccommodationById(int accommodationId)
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT * FROM Accommodations WHERE AccommodationId = @AccommodationId";
-                using (SqlCommand command = new SqlCommand(query, conn))
-                {
-                    command.Parameters.AddWithValue("@AccommodationId", accommodationId);
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            Accommodation accommodation = new Accommodation
-                            {
-                                AccommodationId = (int)reader["AccommodationId"],
-                                AccomodationName = (string)reader["AccommodationName"],
-                                AccommodationType = (string)reader["AccommodationType"],
-                                AccommodationLocation = (string)reader["AccommodationLocation"],
-                                Price = (decimal)reader["Price"],
-                                AccomodationDescription = (string)reader["AccommodationDescription"],
-                                CreatedAt = (DateTime)reader["CreatedAt"]
-                            };
-
-                            return accommodation;
-                        }
-                    }
-                }
-            }
-
-            return null; // Return null if no accommodation is found with the specified ID
-        }
-
-        // Method to store the AccommodationId in a cookie
-        private void StoreAccommodationId(int accommodationId)
-        {
-            var ticket = new FormsAuthenticationTicket(1, accommodationId.ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, "");
-            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
-
-            var authCookie = new HttpCookie("AccommodationIdCookie", encryptedTicket);
-            Response.Cookies.Add(authCookie);
-        }
-
-        // Method to retrieve the AccommodationId from the cookie
-        private int GetAccommodationId()
-        {
-            var authCookie = Request.Cookies["AccommodationIdCookie"];
-            if (authCookie != null)
-            {
-                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                int accommodationId;
-                if (int.TryParse(ticket.Name, out accommodationId))
-                {
-                    return accommodationId;
-                }
-            }
-            return 0;
-        }
-
-        [HttpGet]
-        public ActionResult StoreAccommodationIdAndRedirect(int accommodationId)
-        {
-            StoreAccommodationId(accommodationId);
-            return RedirectToAction("BookAccommodation");
-        }
-
-
-
-        // Retrieve the name
         public ActionResult BookAccommodationView(int id)
         {
             BookAccommodationViewModel model = new BookAccommodationViewModel();
@@ -188,7 +160,46 @@ namespace TravelPlanner.Controllers
 
             return View(model);
         }
- 
+
+        public ActionResult Confirmation(int bookingId)
+        {
+            Bookings booking;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "SELECT BookingId, UserId, AccommodationId, CheckInDate, CheckOutDate, TotalPrice, CreatedAt FROM Bookings WHERE BookingId = @BookingId";
+
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@BookingId", bookingId);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            booking = new Bookings
+                            {
+                                BookingId = (int)reader["BookingId"],
+                                UserId = (int)reader["UserId"],
+                                AccommodationId = (int)reader["AccommodationId"],
+                                CheckInDate = (DateTime)reader["CheckInDate"],
+                                CheckOutDate = (DateTime)reader["CheckOutDate"],
+                                TotalPrice = (decimal)reader["TotalPrice"],
+                                CreatedAt = (DateTime)reader["CreatedAt"]
+                            };
+                        }
+                        else
+                        {
+                            // Handle the case when the booking is not found
+                            return RedirectToAction("BookingNotFound");
+                        }
+                    }
+                }
+            }
+
+            return View(booking);
+        }
 
         [HttpPost]
         public ActionResult CancelTrip(int bookingId)
@@ -216,18 +227,6 @@ namespace TravelPlanner.Controllers
             }
             return Redirect("Index");
         }
-
-        //[HttpGet]
-        //public ActionResult AccommodationAvailable(int accommodationId, DateTime checkInDate, DateTime checkOutDate)
-        //{
-        //    bool isAvailable = true;
-
-        //    using(SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        string queryToCheck
-        //    }
-        //}
 
         //Create Itinerary
 
@@ -289,6 +288,39 @@ namespace TravelPlanner.Controllers
                 }
             }
             return View();
+        }
+
+        private Accommodation GetAccommodationById(int accommodationId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT * FROM Accommodations WHERE AccommodationId = @AccommodationId";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@AccommodationId", accommodationId);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Accommodation accommodation = new Accommodation
+                            {
+                                AccommodationId = (int)reader["AccommodationId"],
+                                AccomodationName = (string)reader["AccommodationName"],
+                                AccommodationType = (string)reader["AccommodationType"],
+                                AccommodationLocation = (string)reader["AccommodationLocation"],
+                                Price = (decimal)reader["Price"],
+                                AccomodationDescription = (string)reader["AccommodationDescription"],
+                                CreatedAt = (DateTime)reader["CreatedAt"]
+                            };
+
+                            return accommodation;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }
