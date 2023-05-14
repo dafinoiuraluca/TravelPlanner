@@ -5,12 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TravelPlanner.Models;
+using System.Web.Security;
 
 namespace TravelPlanner.Controllers
 {
     public class UserController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
 
         // GET: Home
         public ActionResult Index()
@@ -75,6 +76,14 @@ namespace TravelPlanner.Controllers
             }
             else
             {
+                FormsAuthentication.SetAuthCookie(user.UserId.ToString(), false);
+
+                var ticket = new FormsAuthenticationTicket(1, user.UserId.ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, user.UserType);
+                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                Response.Cookies.Add(authCookie);
+
                 if (user.UserType == "Customer")
                 {
                     return RedirectToAction("AccommodationView", "Accommodation");

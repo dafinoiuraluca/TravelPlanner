@@ -57,6 +57,9 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
+                    @Html.ActionLink("Book", "StoreAccommodationIdAndRedirect", "Bookings", new { accommodationId = item.AccommodationId }, null)
+                </td>
+                <td>
                     @Html.ActionLink("Book", "BookAccommodationView", "Bookings", new { id = item.AccommodationId }, null)
                 </td>
             </tr>

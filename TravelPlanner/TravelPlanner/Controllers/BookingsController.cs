@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TravelPlanner.Models;
+using System.Security.Claims;
+using System.Web.Security;
 
 namespace TravelPlanner.Controllers
 {
@@ -22,49 +24,73 @@ namespace TravelPlanner.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Map the selected accommodation details to the Bookings model
-                Bookings bookings = new Bookings
+                int userId = 0;
+                var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (authCookie != null)
                 {
-                    AccommodationId = model.AccommodationId,
-                    CheckInDate = model.CheckInDate,
-                    CheckOutDate = model.CheckOutDate,
-                };
-
-                TimeSpan stayDuration = bookings.CheckOutDate.Date.Subtract(bookings.CheckInDate.Date);
-                int numberOfNights = stayDuration.Days;
-                decimal totalPrice = model.Price * numberOfNights;
-
-                bookings.TotalPrice = totalPrice;
-                bookings.CreatedAt = DateTime.Now;
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    string queryInsertBooking = "INSERT INTO Bookings (AccommodationId, CheckInDate, CheckOutDate, TotalPrice, CreatedAt) " +
-                                                "VALUES (@AccommodationId, @CheckInDate, @CheckOutDate, @TotalPrice, @CreatedAt)";
-
-                    using (SqlCommand insertCommand = new SqlCommand(queryInsertBooking, conn))
-                    {
-                        insertCommand.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
-                        insertCommand.Parameters.AddWithValue("@CheckInDate", bookings.CheckInDate);
-                        insertCommand.Parameters.AddWithValue("@CheckOutDate", bookings.CheckOutDate);
-                        insertCommand.Parameters.AddWithValue("@TotalPrice", bookings.TotalPrice);
-                        insertCommand.Parameters.AddWithValue("@CreatedAt", bookings.CreatedAt);
-
-                        insertCommand.ExecuteNonQuery();
-                    }
+                    var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                    int.TryParse(ticket.Name, out userId);
                 }
 
-                // Redirect to the confirmation page with the accommodation details and total price
-                return RedirectToAction("Confirmation", new { accommodationId = bookings.AccommodationId, totalPrice });
+                if(userId != 0)
+                {
+                    Bookings bookings = new Bookings
+                    {
+                        UserId = userId,
+                        AccommodationId = model.AccommodationId,
+                        CheckInDate = model.CheckInDate,
+                        CheckOutDate = model.CheckOutDate,
+                    };
+
+                    TimeSpan stayDuration = bookings.CheckOutDate.Date.Subtract(bookings.CheckInDate.Date);
+                    int numberOfNights = stayDuration.Days;
+                    decimal totalPrice = model.Price * numberOfNights;
+
+                    bookings.TotalPrice = totalPrice;
+                    bookings.CreatedAt = DateTime.Now;
+
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        string queryInsertBooking = "INSERT INTO Bookings (UserId, AccommodationId, CheckInDate, CheckOutDate, TotalPrice, CreatedAt) " +
+                                                    "VALUES (@UserId, @AccommodationId, @CheckInDate, @CheckOutDate, @TotalPrice, @CreatedAt)";
+
+                        using (SqlCommand insertCommand = new SqlCommand(queryInsertBooking, conn))
+                        {
+                            insertCommand.Parameters.AddWithValue("@UserId", bookings.UserId);
+                            insertCommand.Parameters.AddWithValue("@AccommodationId", bookings.AccommodationId);
+                            insertCommand.Parameters.AddWithValue("@CheckInDate", bookings.CheckInDate);
+                            insertCommand.Parameters.AddWithValue("@CheckOutDate", bookings.CheckOutDate);
+                            insertCommand.Parameters.AddWithValue("@TotalPrice", bookings.TotalPrice);
+                            insertCommand.Parameters.AddWithValue("@CreatedAt", bookings.CreatedAt);
+
+                            insertCommand.ExecuteNonQuery();
+                        }
+                    }
+
+                    return RedirectToAction("Confirmation", new { accommodationId = bookings.AccommodationId, totalPrice });
+                }
+                
             }
 
             return RedirectToAction("Confirmation", new { id = model.AccommodationId });
         }
 
 
-
+        //private int GetLoggedInUserId()
+        //{
+        //    if(User.Identity.IsAuthenticated)
+        //    {
+        //        var claimsIdentity = User.Identity as ClaimsIdentity;
+        //        var userIdClaim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+        //        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        //        {
+        //            return userId;
+        //        }
+        //    }
+        //    return 0;
+        //}
 
         private Accommodation GetAccommodationById(int accommodationId)
         {
@@ -99,6 +125,40 @@ namespace TravelPlanner.Controllers
             return null; // Return null if no accommodation is found with the specified ID
         }
 
+        // Method to store the AccommodationId in a cookie
+        private void StoreAccommodationId(int accommodationId)
+        {
+            var ticket = new FormsAuthenticationTicket(1, accommodationId.ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, "");
+            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+            var authCookie = new HttpCookie("AccommodationIdCookie", encryptedTicket);
+            Response.Cookies.Add(authCookie);
+        }
+
+        // Method to retrieve the AccommodationId from the cookie
+        private int GetAccommodationId()
+        {
+            var authCookie = Request.Cookies["AccommodationIdCookie"];
+            if (authCookie != null)
+            {
+                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                int accommodationId;
+                if (int.TryParse(ticket.Name, out accommodationId))
+                {
+                    return accommodationId;
+                }
+            }
+            return 0;
+        }
+
+        [HttpGet]
+        public ActionResult StoreAccommodationIdAndRedirect(int accommodationId)
+        {
+            StoreAccommodationId(accommodationId);
+            return RedirectToAction("BookAccommodation");
+        }
+
+
 
         // Retrieve the name
         public ActionResult BookAccommodationView(int id)
@@ -116,11 +176,11 @@ namespace TravelPlanner.Controllers
                     {
                         if (reader.Read())
                         {
-                            model.AccommodationName = reader.GetString(0);
-                            model.AccommodationDescription = reader.GetString(1);
-                            model.AccommodationType = reader.GetString(2);
-                            model.AccommodationLocation = reader.GetString(3);
-                            model.Price = reader.GetDecimal(4);
+                            model.AccommodationName = (string)reader["AccommodationName"];
+                            model.AccommodationDescription = (string)reader["AccommodationDescription"];
+                            model.AccommodationType = (string)reader["AccommodationType"];
+                            model.AccommodationLocation = (string)reader["AccommodationLocation"];
+                            model.Price = (decimal)reader["Price"];
                         }
                     }
                 }
