@@ -262,6 +262,8 @@
     <Content Include="Views\NewActivity.cshtml" />
     <Content Include="Views\Bookings\BookAccommodationView.cshtml" />
     <Content Include="Views\Bookings\Confirmation.cshtml" />
+    <Content Include="Views\ReviewAccommodation\AddAccommodationReview.cshtml" />
+    <Content Include="Views\ReviewAccommodation\LeaveReviewView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
