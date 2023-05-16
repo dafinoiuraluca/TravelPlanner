@@ -5,6 +5,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TravelPlanner - Home</title>
+    <link rel="stylesheet" type="text/css" href="~/DisplayReview.css">
+</head>
+<body>
+    <header class="header" style="display: flex; justify-content: space-between;">
+        <div class="buttons">
+            <button class="btn" onclick="window.location='@Url.Action("SignIn", "User")'">Log In</button>
+            <button class="btn" onclick="window.location='@Url.Action("SignedUp", "User")'">Sign Up</button>
+            <button class="btn" onclick="window.location='/Accommodation/AccommodationView'">Accommodations</button>
+            <button class="btn" onclick="window.location='/Activities/ActivityView'">Activities</button>
+        </div>
+    </header>
+</body>
+<br />
+<br />
+
+
 <h2>Activity Reviews</h2>
 
 @foreach (var review in Model)

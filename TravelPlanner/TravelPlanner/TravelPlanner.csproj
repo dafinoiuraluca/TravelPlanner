@@ -156,6 +156,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AccommodationActivity.css" />
     <Content Include="bus.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -173,6 +174,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="DisplayReview.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -198,6 +200,7 @@
     <Content Include="Images\Vienna.jpg" />
     <Content Include="Login.css" />
     <Content Include="Register.css" />
+    <Content Include="Reviews.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -256,7 +259,6 @@
     <Content Include="Views\ReviewAccommodation\DisplayReviewAccommodation.cshtml" />
     <Content Include="Views\ReviewActivity\DisplayReviewActivity.cshtml" />
     <Content Include="Views\User\SignedUp.cshtml" />
-    <Content Include="Views\User\New.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
     <Content Include="Views\Accommodation\AccommodationView.cshtml" />
     <Content Include="Views\Accommodation\NewAccomodation.cshtml" />

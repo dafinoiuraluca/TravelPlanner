@@ -1,6 +1,27 @@
 ﻿@model IEnumerable<TravelPlanner.Models.Activities>
 
-@using (Html.BeginForm("SearchActivity", "Activity", FormMethod.Get))
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TravelPlanner - Home</title>
+    <link rel="stylesheet" type="text/css" href="~/AccommodationActivity.css">
+</head>
+<body>
+    <header class="header" style="display: flex; justify-content: space-between;">
+        <div class="buttons">
+            <button class="btn" onclick="window.location='@Url.Action("SignIn", "User")'">Log In</button>
+            <button class="btn" onclick="window.location='@Url.Action("SignedUp", "User")'">Sign Up</button>
+            <button class="btn" onclick="window.location='/Accommodation/AccommodationView'">Accommodations</button>
+            <button class="btn" onclick="window.location='/Activities/ActivityView'">Activities</button>
+        </div>
+    </header>
+</body>
+<br />
+<br />
+
+
+@using (Html.BeginForm("SearchActivity", "Activities", FormMethod.Get))
 {
     <div class="form-group">
         @Html.Label("Search Activities:")
@@ -24,7 +45,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
