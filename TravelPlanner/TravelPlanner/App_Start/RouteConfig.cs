@@ -14,6 +14,25 @@ namespace TravelPlanner
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "LeaveReview",
+                url: "ReviewAccommodation/LeaveReview/{accommodationId}",
+                defaults: new { controller = "ReviewAccommodation", action = "LeaveReview" }
+                );
+
+
+            routes.MapRoute(
+                name: "ActivityView",
+                url: "Activities/ActivityView",
+                defaults: new { controller = "Activity", action = "ActivitiesView" }
+                );
+
+            routes.MapRoute(
+                name: "NewActivity",
+                url: "Activities/NewActivity",
+                defaults: new { controller = "Activity", action = "NewActivity" }
+            );
+
+            routes.MapRoute(
                     name:"BookAccommodationView",
                     url:"Bookings/BookAccommodationView/{id}",
                     defaults: new { controller = "Bookings", action = "BookAccommodationView", id = UrlParameter.Optional }

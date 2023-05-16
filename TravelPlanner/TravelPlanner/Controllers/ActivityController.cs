@@ -12,7 +12,7 @@ namespace TravelPlanner.Controllers
 {
     public class ActivityController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
 
         // GET: Activity
         public ActionResult Index()
@@ -31,8 +31,7 @@ namespace TravelPlanner.Controllers
         public ActionResult CreateActivity(Activities activity)
         {
             CreateNewActivity(activity);
-
-            return Content("Added activity"); ;
+            return Content("Activity added"); ;
         }
 
         public void CreateNewActivity(Activities activity)

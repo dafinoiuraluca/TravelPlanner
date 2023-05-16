@@ -143,7 +143,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Accommodation.cs" />
+    <Compile Include="Models\AccommodationReviewViewModel.cs" />
     <Compile Include="Models\Activities.cs" />
+    <Compile Include="Models\ActivityReviewViewModel.cs" />
     <Compile Include="Models\BookAccommodationViewModel.cs" />
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\DestinationRecommandation.cs" />
@@ -258,12 +260,12 @@
     <Content Include="Views\User\SignIn.cshtml" />
     <Content Include="Views\Accommodation\AccommodationView.cshtml" />
     <Content Include="Views\Accommodation\NewAccomodation.cshtml" />
-    <Content Include="Views\ActivitiesView.cshtml" />
-    <Content Include="Views\NewActivity.cshtml" />
     <Content Include="Views\Bookings\BookAccommodationView.cshtml" />
     <Content Include="Views\Bookings\Confirmation.cshtml" />
-    <Content Include="Views\ReviewAccommodation\AddAccommodationReview.cshtml" />
-    <Content Include="Views\ReviewAccommodation\LeaveReviewView.cshtml" />
+    <Content Include="Views\Activities\ActivityView.cshtml" />
+    <Content Include="Views\Activities\NewActivity.cshtml" />
+    <Content Include="Views\ReviewAccommodation\ReviewAccommodationView.cshtml" />
+    <Content Include="Views\ReviewActivity\ReviewActivityView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

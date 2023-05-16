@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<TravelPlanner.Models.Activities>
+
 @using (Html.BeginForm("SearchActivity", "Activity", FormMethod.Get))
 {
     <div class="form-group">
         @Html.Label("Search Activities:")
-        @Html.TextBox("searchActivty", null, new { @class = "form-control" })
+        @Html.TextBox("searchActivity", null, new { @class = "form-control" })
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 }
-
-
-
-
 
 <table class="table">
     <thead>
@@ -27,6 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -45,7 +43,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
+                <td>
+                    @Html.ActionLink("Display reviews", "DisplayReview", "ReviewActivity", new { activityId = item.ActivityId }, null)
+                    @Html.ActionLink("Leave Review", "ReviewActivityView", "ReviewActivity", new { id = item.ActivityId }, null)
+                </td>
             </tr>
         }
     </tbody>
 </table>
+

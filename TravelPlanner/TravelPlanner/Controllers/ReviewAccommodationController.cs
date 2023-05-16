@@ -11,13 +11,12 @@ namespace TravelPlanner.Controllers
 {
     public class ReviewAccommodationController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
         // GET: ReviewAccommodation
         public ActionResult Index()
         {
             return View();
         }
-
 
         // add review
 
@@ -27,8 +26,9 @@ namespace TravelPlanner.Controllers
             return RedirectToAction(actionName, controllerName);
         }
 
+
         [HttpPost]
-        public ActionResult LeaveReview(ReviewAccommodation model, int accommodationId)
+        public ActionResult LeaveReview(AccommodationReviewViewModel model, int accommodationId)
         {
             if (ModelState.IsValid)
             {
@@ -55,76 +55,72 @@ namespace TravelPlanner.Controllers
                         UserId = userId,
                         AccommodationId = accommodationId,
                         Rating = model.Rating,
-                        Comment = model.Comment,
-                        CreatedAt = DateTime.Now
+                        Comment = model.Comment
                     };
+                    review.CreatedAt = DateTime.Now;
 
-                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        conn.Open();
+                        connection.Open();
+                        string queryInsert = "INSERT INTO ReviewsAccommodations(UserId, AccommodationId, Rating, Comment, CreatedAt) VALUES (@UserId, @AccommodationId, @Rating, @Comment, @CreatedAt)";
 
-                        string queryInsertReview = "INSERT INTO ReviewsAccommodation (UserId, AccommodationId, Rating, Comment, CreatedAt) " +
-                                                    "VALUES (@UserId, @AccommodationId, @Rating, @Comment, @CreatedAt)";
-
-                        using (SqlCommand insertCommand = new SqlCommand(queryInsertReview, conn))
+                        using (SqlCommand command = new SqlCommand(queryInsert, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@UserId", review.UserId);
-                            insertCommand.Parameters.AddWithValue("@AccommodationId", review.AccommodationId);
-                            insertCommand.Parameters.AddWithValue("@Rating", review.Rating);
-                            insertCommand.Parameters.AddWithValue("@Comment", review.Comment);
-                            insertCommand.Parameters.AddWithValue("@CreatedAt", review.CreatedAt);
+                            command.Parameters.AddWithValue("@UserId", review.UserId);
+                            command.Parameters.AddWithValue("@AccommodationId", review.AccommodationId);
+                            command.Parameters.AddWithValue("@Rating", review.Rating);
+                            command.Parameters.AddWithValue("@Comment", review.Comment);
+                            command.Parameters.AddWithValue("@CreatedAt", review.CreatedAt);
 
-                            insertCommand.ExecuteScalar();
+                            command.ExecuteScalar();
                         }
                     }
-                    return RedirectToAction("Confirmation", new { id = accommodationId });
                 }
+            } else
+            {
+                return Content("Failed to submit review");
             }
-            return RedirectToAction("Confirmation", new { id = model.AccommodationId });
+            return Content("Review submitted");
         }
 
-        public ActionResult LeaveReviewView(int id)
+        public ActionResult ReviewAccommodationView(int id)
         {
-            BookAccommodationViewModel model = new BookAccommodationViewModel();
+            AccommodationReviewViewModel review = new AccommodationReviewViewModel();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                connection.Open();
-                string query = "SELECT AccommodationName, AccommodationDescription, AccommodationType, AccommodationLocation, Price FROM Accommodations WHERE AccommodationId = @Id";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                conn.Open();
+                string query = "SELECT AccommodationName FROM Accommodations WHERE AccommodationId = @Id";
+                using(SqlCommand command = new SqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@Id", id);
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using(SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        if(reader.Read())
                         {
-                            model.AccommodationName = (string)reader["AccommodationName"];
-                            model.AccommodationDescription = (string)reader["AccommodationDescription"];
-                            model.AccommodationType = (string)reader["AccommodationType"];
-                            model.AccommodationLocation = (string)reader["AccommodationLocation"];
-                            model.Price = (decimal)reader["Price"];
+                            review.AccommodationId = id;
+                            review.AccommodationName = (string)reader["AccommodationName"];
                         }
                     }
                 }
             }
-
-
-            return View(model);
+            return View(review);
         }
-
-
-
 
         [HttpGet]
         public ActionResult DisplayReview(int accommodationId)
         {
             List<ReviewAccommodation> reviewAccommodations = new List<ReviewAccommodation>();
+            if (Session["AccommodationId"] != null)
+            {
+                accommodationId = (int)Session["AccommodationId"];
+            }
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string queryToDisplayReview = "SELECT * FROM ReviewAccommodation WHERE AccommodationId = @AccommodationId";
+                    string queryToDisplayReview = "SELECT * FROM ReviewsAccommodations WHERE AccommodationId = @AccommodationId";
                     using (SqlCommand command = new SqlCommand(queryToDisplayReview, conn))
                     {
                         command.Parameters.AddWithValue("@AccommodationId", accommodationId);
@@ -143,7 +139,7 @@ namespace TravelPlanner.Controllers
                         }
                     }
                 }
-                return View(reviewAccommodations);
+                return View("DisplayReviewAccommodation", reviewAccommodations);
             }
             catch (Exception e)
             {

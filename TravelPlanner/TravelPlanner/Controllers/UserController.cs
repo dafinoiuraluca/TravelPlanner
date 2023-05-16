@@ -11,7 +11,7 @@ namespace TravelPlanner.Controllers
 {
     public class UserController : Controller
     {
-        string connectionString = "Data Source=DESKTOP-6A1HP7T;Initial Catalog=TravelPlanner;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LT7G6FF\\SQLEXPRESS;Initial Catalog=TravelPlanner;Integrated Security=True";
 
         // GET: Home
         public ActionResult Index()

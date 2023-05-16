@@ -4,7 +4,7 @@
 {
     <div class="form-group">
         @Html.Label("Search Accommodation:")
-        @Html.TextBox("locationAccommodation", null, new { @class = "form-control" })
+        @Html.TextBox("searchAccommodation", null, new { @class = "form-control" })
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 }
@@ -58,8 +58,8 @@
                 </td>
                 <td>
                     @Html.ActionLink("Book", "StoreAccommodationIdAndRedirect", "Bookings", new { accommodationId = item.AccommodationId, actionName = "BookAccommodationView", controllerName = "Bookings", id = item.AccommodationId }, null)
-                    @Html.ActionLink("Leave Review", "StoreAccommodationIdAndRedirectReview", "ReviewAccommodation", new { accommodationId = item.AccommodationId, actionName = "LeaveReviewView", controllerName = "ReviewAccommodation", id = item.AccommodationId }, null)
-
+                    @Html.ActionLink("Display reviews", "DisplayReview", "ReviewAccommodation", new { accommodationId = item.AccommodationId }, null)             
+                    @Html.ActionLink("Leave Review", "ReviewAccommodationView", "ReviewAccommodation", new { id = item.AccommodationId }, null)
                 </td>
             </tr>
         }

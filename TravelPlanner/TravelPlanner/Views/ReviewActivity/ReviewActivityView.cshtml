@@ -1,0 +1,26 @@
+﻿@model TravelPlanner.Models.ActivityReviewViewModel
+@{
+    ViewBag.Title = "Review Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Review Activity</h2>
+<h3>@Model.ActivityName</h3>
+
+<form action="@Url.Action("LeaveReview", "ReviewActivity")" method="post">
+    @Html.HiddenFor(model => model.ActivityId)
+    @Html.HiddenFor(model => model.ActivityName)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rating)
+        @Html.TextBoxFor(model => model.Rating, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comment)
+        @Html.TextBoxFor(model => model.Comment, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
