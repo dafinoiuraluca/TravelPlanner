@@ -1,0 +1,49 @@
+﻿@model TravelPlanner.Models.DestinationRecommandationDefinition
+
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="@Url.Action("About", "Home")" />
+    <title>Our recommandations on destionations</title>
+    <style>
+        .city-image {
+            width: 500px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="u-body u-xl-mode" data-style="blank" data-posts="" data-global-section-properties="{&quot;colorings&quot;:{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}}" data-source="" data-lang="en" data-page-sections-style="[{&quot;name&quot;:&quot;blank&quot;}]" data-page-coloring-types="{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}" data-page-category="&quot;Basic&quot;">
+    <section class="u-clearfix u-block-a769-1" custom-posts-hash="[]" data-style="blank" data-section-properties="{&quot;margin&quot;:&quot;none&quot;,&quot;stretch&quot;:true}" id="sec-75f4" data-id="a769">
+        <div class="u-clearfix u-sheet u-block-a769-2">
+            <div class="u-clearfix u-layout-wrap u-block-a769-3">
+                <div class="u-layout">
+                    @for (int i = 0; i < TravelPlanner.Models.DestinationRecommandationDefinition.recommandations.Count; i += 2)
+                    {
+                        <div class="u-layout-row">
+                            <div class="u-container-style u-layout-cell u-size-30 u-block-a769-4">
+                                <div class="u-container-layout u-block-a769-5">
+                                    <h2>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityName</h2>
+                                    <img class="city-image" src="@Url.Content("~/Images/" + TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityName + ".jpg")" alt="@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityName" />
+                                    <p>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i].CityDescription</p>
+                                </div>
+                            </div>
+                            @if (i + 1 < TravelPlanner.Models.DestinationRecommandationDefinition.recommandations.Count)
+                            {
+                                <div class="u-container-style u-layout-cell u-size-30 u-block-a769-6">
+                                    <div class="u-container-layout u-block-a769-7">
+                                        <h2>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i + 1].CityName</h2>
+                                        <img class="city-image" src="@Url.Content("~/Images/" + TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i+1].CityName + ".jpg")" alt="@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i+1].CityName" />
+                                        <p>@TravelPlanner.Models.DestinationRecommandationDefinition.recommandations[i + 1].CityDescription</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

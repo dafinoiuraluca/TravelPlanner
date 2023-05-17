@@ -1,0 +1,77 @@
+﻿@model IEnumerable<TravelPlanner.Models.Accommodation>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TravelPlanner - Home</title>
+    <link rel="stylesheet" type="text/css" href="~/AccommodationActivity.css">
+</head>
+
+<br />
+<br />
+
+    @using (Html.BeginForm("SearchAccommodation", "Accommodation", FormMethod.Get))
+    {
+        <div class="form-group">
+            @Html.Label("Search Accommodation:")
+            @Html.TextBox("searchAccommodation", null, new { @class = "form-control" })
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    }
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccomodationName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccommodationType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccommodationLocation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccomodationDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccomodationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccommodationType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccommodationLocation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccomodationDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Book", "StoreAccommodationIdAndRedirect", "Bookings", new { accommodationId = item.AccommodationId, actionName = "BookAccommodationView", controllerName = "Bookings", id = item.AccommodationId }, null)
+                        @Html.ActionLink("Display reviews", "DisplayReview", "ReviewAccommodation", new { accommodationId = item.AccommodationId }, null)
+                        @Html.ActionLink("Leave Review", "ReviewAccommodationView", "ReviewAccommodation", new { id = item.AccommodationId }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

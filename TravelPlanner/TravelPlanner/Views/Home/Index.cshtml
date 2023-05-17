@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <base href="@Url.Action("Start", "Home")" />
+    <title>TravelPlanner - Home</title>
+    <link rel="stylesheet" type="text/css" href="~/HomePage.css">
+</head>
+<body>
+    <header class="header" style="display: flex; justify-content: space-between;">
+        <h1>Welcome to TravelPlanner</h1>
+    </header>
+    <br /><br />
+    <div class="Message" style="display: flex; justify-content: flex-end;">
+        <div style="flex: 1;">
+            <img src="~/bus.png" alt="Travel Photo" style="float: left">
+            <h2>Discover Your Next Adventure</h2>
+            <p>At TravelPlanner, we're passionate about helping you plan the perfect trip. Whether you're looking for a relaxing beach getaway or an exciting city adventure, our travel experts are here to help.</p>
+            <a href="@Url.Action("About", "Home")" class="btn">Explore Destinations</a>
+        </div>
+    </div>
+</body>
+</html>

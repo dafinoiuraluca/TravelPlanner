@@ -1,0 +1,41 @@
+﻿@model TravelPlanner.Models.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <link href="~/Register.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Register</h1>
+        <form method="post" action="@Url.Action("SignUp", "User")">
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" required>
+            <br />
+
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" required>
+            <br />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br />
+
+            <label for="user-type">User Type:</label>
+            <select id="user-type" name="UserType" required>
+                <option value="">--Select User Type--</option>
+                <option value="Customer">Customer</option>
+                <option value="Manager">Manager</option>
+                <option value="Local">Local</option>
+             
+            </select>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>
