@@ -1,0 +1,41 @@
+﻿/* Define styles for the h2 heading */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Define styles for paragraphs */
+p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Define styles for the confirmation details */
+.confirmation-details {
+    margin-top: 20px;
+}
+
+/* Define styles for the label */
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Define styles for the date and time display */
+.date-time {
+    font-size: 14px;
+}
+
+/* Define styles for the price display */
+.price {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Define styles for the created at timestamp */
+.created-at {
+    font-size: 14px;
+    color: #999;
+}

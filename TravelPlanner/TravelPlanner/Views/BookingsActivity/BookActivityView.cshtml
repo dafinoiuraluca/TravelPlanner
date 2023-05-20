@@ -1,0 +1,45 @@
+﻿@model TravelPlanner.Models.BookActivityViewModel
+
+@{
+    ViewData["Title"] = "Book Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <title>Book Activity</title>
+    <link rel="stylesheet" type="text/css" href="~/BookingsActivityView.css">
+</head>
+
+<h2>Book Activity</h2>
+
+<h3>@Model.ActivityName</h3>
+<p>@Model.ActivityDescription</p>
+<p>@Model.ActivityType</p>
+<p>@Model.Price</p>
+
+<form action="@Url.Action("BookActivity", "BookingsActivity")" method="post">
+    @Html.HiddenFor(model => model.ActivityId)
+    @Html.HiddenFor(model => model.ActivityName)
+    @Html.HiddenFor(model => model.ActivityDescription)
+    @Html.HiddenFor(model => model.ActivityType)
+    @Html.HiddenFor(model => model.Price)
+
+    <label for="startHour">Select Start Hour:</label>
+    <input type="time" id="startHour" name="StartHour">
+    <label for="stopHour">Select End Hour:</label>
+    <input type="time" id="stopHour" name="StopHour">
+    <br>
+
+    <img src="~/Images/random-photo.jpg" alt="Random Photo">
+    <br>
+
+    <button type="submit" onclick="redirectToConfirmation()">Book</button>
+</form>
+
+<script>
+    function redirectToConfirmation() {
+        document.getElementById("bookForm").submit();
+        var bookingId = @Model.BookingId;
+        window.location.href = '@Url.Action("ConfirmationActivity", "BookingsActivities")' + '?bookingId=' + bookingId;
+    }
+</script>

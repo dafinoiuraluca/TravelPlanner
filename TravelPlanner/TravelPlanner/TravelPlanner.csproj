@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\BookingsActivityController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReviewAccommodationController.cs" />
@@ -135,7 +136,9 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityReviewViewModel.cs" />
     <Compile Include="Models\BookAccommodationViewModel.cs" />
+    <Compile Include="Models\BookActivityViewModel.cs" />
     <Compile Include="Models\Bookings.cs" />
+    <Compile Include="Models\BookingsActivities.cs" />
     <Compile Include="Models\DestinationRecommandation.cs" />
     <Compile Include="Models\DestinationRecommandationDefinition.cs" />
     <Compile Include="Models\ReviewAccommodation.cs" />
@@ -147,7 +150,10 @@
     <Content Include="Accommodation.css" />
     <Content Include="AccommodationActivity.css" />
     <Content Include="AccommodationView.css" />
+    <Content Include="BookingsActivityView.css" />
+    <Content Include="BookingsView.css" />
     <Content Include="bus.png" />
+    <Content Include="Confirmation.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -219,6 +225,8 @@
     <Content Include="Views\ReviewActivity\ReviewActivityView.cshtml" />
     <Content Include="Views\User\SignedUp.cshtml" />
     <Content Include="Views\User\SignIn.cshtml" />
+    <Content Include="Views\BookingsActivity\BookActivityView.cshtml" />
+    <Content Include="Views\BookingsActivity\ConfirmationActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,51 @@
+﻿/* Define styles for the h2 heading */
+h2 {
+    color: #333;
+    font-size: 24px;
+}
+
+/* Define styles for the h3 heading */
+h3 {
+    color: #666;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/* Define styles for paragraphs */
+p {
+    color: #999;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Define styles for labels */
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Define styles for input elements */
+input[type="time"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Define styles for the book button */
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Define styles for the random photo image */
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}

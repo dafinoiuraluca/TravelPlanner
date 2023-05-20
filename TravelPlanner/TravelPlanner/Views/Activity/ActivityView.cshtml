@@ -53,6 +53,7 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
+                        @Html.ActionLink("Book", "StoreAccommodationIdAndRedirectActivity", "BookingsActivity", new { activityId = item.ActivityId, actionName = "BookActivityView", controllerName = "BookingsActivity", id = item.ActivityId }, null)
                         @Html.ActionLink("Display reviews", "DisplayReview", "ReviewActivity", new { activityId = item.ActivityId }, null)
                         @Html.ActionLink("Leave Review", "ReviewActivityView", "ReviewActivity", new { id = item.ActivityId }, null)
                     </td>

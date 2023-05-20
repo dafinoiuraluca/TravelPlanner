@@ -28,6 +28,7 @@ namespace TravelPlanner.Controllers
         [HttpPost]
         public ActionResult BookAccommodation(BookAccommodationViewModel model, int accommodationId)
         {
+            int bookingId = 0;
             if (ModelState.IsValid)
             {
                 int userId = 0;
@@ -83,7 +84,7 @@ namespace TravelPlanner.Controllers
                             insertCommand.ExecuteScalar();
                         }
                     }
-                    int bookingId = 0;
+                    
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
@@ -120,7 +121,6 @@ namespace TravelPlanner.Controllers
                                         TotalPrice = (decimal)reader["TotalPrice"],
                                         CreatedAt = (DateTime)reader["CreatedAt"]
                                     };
-
                                     return RedirectToAction("Confirmation", new { bookingId = bookings.BookingId });
                                 }
                             }
@@ -197,6 +197,6 @@ namespace TravelPlanner.Controllers
             }
 
             return View(booking);
-        }
+        }   
     }
 }
